@@ -4,7 +4,7 @@ namespace Tron\Support;
 
 use InvalidArgumentException;
 use kornrunner\Keccak;
-use phpseclib\Math\BigInteger;
+use phpseclib3\Math\BigInteger;
 use Psr\Http\Message\StreamInterface;
 
 class Utils
@@ -283,11 +283,11 @@ class Utils
     }
 
     public static function divideDisplay(array $divResult, int $decimals)
-    {
+    { 
         list($bnq, $bnr) = $divResult;
-        $ret = "$bnq->value";
-        if ($bnr->value > 0) {
-            $ret .= '.' . rtrim(sprintf("%0{$decimals}d", $bnr->value), '0');
+        $ret = "{$bnq->toString()}";
+        if ($bnr->toString() > 0) {
+            $ret .= '.' . rtrim(sprintf("%0{$decimals}d", $bnr->toString()), '0');
         }
 
         return $ret;
