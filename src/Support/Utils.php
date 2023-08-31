@@ -303,18 +303,22 @@ class Utils
             list($whole, $fraction, $fractionLength, $negative1) = $bn;
 
             $whole = $whole->multiply($bnt);
-
-            switch (MATH_BIGINTEGER_MODE) {
-                case $whole::MODE_GMP:
-                    static $two;
-                    $powerBase = gmp_pow(gmp_init(10), (int) $fractionLength);
-                    break;
-                case $whole::MODE_BCMATH:
-                    $powerBase = bcpow('10', (string) $fractionLength, 0);
-                    break;
-                default:
-                    $powerBase = pow(10, (int) $fractionLength);
-                    break;
+            
+            if(defined('MATH_BIGINTEGER_MODE')){
+                switch (MATH_BIGINTEGER_MODE) {
+                    case $whole::MODE_GMP:
+                        static $two;
+                        $powerBase = gmp_pow(gmp_init(10), (int) $fractionLength);
+                        break;
+                    case $whole::MODE_BCMATH:
+                        $powerBase = bcpow('10', (string) $fractionLength, 0);
+                        break;
+                    default:
+                        $powerBase = pow(10, (int) $fractionLength);
+                        break;
+                }
+            }else{
+                $powerBase = pow(10, (int) $fractionLength);
             }
             $base = new BigInteger($powerBase);
             $fraction = $fraction->multiply($bnt)->divide($base)[0];
