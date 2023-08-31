@@ -4,9 +4,12 @@ namespace Tron;
 
 use IEXBase\TronAPI\Support\Base58Check;
 use IEXBase\TronAPI\Support\Hash;
+use IEXBase\TronAPI\TronAwareTrait;
 
 class Address
 {
+    use TronAwareTrait;
+
     public $privateKey,
         $address,
         $hexAddress = '';
@@ -24,6 +27,9 @@ class Address
         $this->privateKey = $privateKey;
         $this->address = $address;
         $this->hexAddress = $hexAddress;
+        if(empty($this->hexAddress) && !empty($this->address)){
+            $this->hexAddress = $this->address2HexString($address);
+        }
     }
 
     /**
